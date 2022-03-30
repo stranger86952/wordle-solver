@@ -28,20 +28,23 @@
   </div>
   <script type="text/javascript">
     var oldlist = new Array();
+    var nytimeslist = new Array();
     function load (url){
       $.get(url, function(data){
           data = data.replace(/^\d{1,2}(\|*)$/gm,"");
           data = data.split(/[\r\n]+/);
           data = data.filter(Boolean);
-          oldlist = data;
-          $(".old").text("");
           if(url == "old.txt"){
             for(var i=0;i<data.length;i++){
+              oldlist = data;
+              $(".old").text("");
               $(".old").append(data[i] + "<br>");
             }
           }
           else{
             for(var i=0;i<data.length;i++){
+              nytimeslist = data;
+              $(".nytimes").text("");
               $(".nytimes").append(data[i] + "<br>");
             }
           }
