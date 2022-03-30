@@ -35,16 +35,16 @@
           data = data.split(/[\r\n]+/);
           data = data.filter(Boolean);
           if(url == "old.txt"){
+            oldlist = data;
+            $(".old").text("");
             for(var i=0;i<data.length;i++){
-              oldlist = data;
-              $(".old").text("");
               $(".old").append(data[i] + "<br>");
             }
           }
           else{
+            nytimeslist = data;
+            $(".nytimes").text("");
             for(var i=0;i<data.length;i++){
-              nytimeslist = data;
-              $(".nytimes").text("");
               $(".nytimes").append(data[i] + "<br>");
             }
           }
@@ -55,8 +55,8 @@
     setTimeout(function(){
       console.log(oldlist[2]);
       console.log(nytimes[3]);
-      $('.loading').hide(500);
-    },5000);
+      $('.loading').hide(3500);
+    },3000);
   </script>
 </body>
 </html>
