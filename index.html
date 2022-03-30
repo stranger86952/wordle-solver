@@ -17,6 +17,9 @@
   <div class="answer">
     <span>search results</span>
   </div>
+  <div class="old">
+    error
+  </div>
   <script type="text/javascript">
     var oldlist = new Array();
     function load (url){
@@ -25,7 +28,13 @@
           data = data.split(/[\r\n]+/);
           data = data.filter(Boolean);
           oldlist = data;
-      })
+          $(".old").text("");
+          for(var i=0;i<data.length;i++){
+            $(".old").append(data[i]);
+          }
+          console.log(data[0]);
+          console.log("test");
+      });
     }
     load("old.txt");
     console.log(oldlist[0]);
