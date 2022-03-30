@@ -7,6 +7,9 @@
   <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 </head>
 <body>
+  <div class="loading">
+    Now, loadung...
+  </div>
   <p class="title">wordle solver</p>
   <div class="wordlist">
     <span>choose word list</span>
@@ -20,6 +23,9 @@
   <div class="old">
     error
   </div>
+  <div class="nytimes">
+    error
+  </div>
   <script type="text/javascript">
     var oldlist = new Array();
     function load (url){
@@ -29,16 +35,24 @@
           data = data.filter(Boolean);
           oldlist = data;
           $(".old").text("");
-          for(var i=0;i<data.length;i++){
-            $(".old").append(data[i] + "<br>");
+          if(url == "old.txt"){
+            for(var i=0;i<data.length;i++){
+              $(".old").append(data[i] + "<br>");
+            }
           }
-          console.log(data[0]);
-          console.log("test");
+          else{
+            for(var i=0;i<data.length;i++){
+              $(".nytimes").append(data[i] + "<br>");
+            }
+          }
       });
     }
     load("old.txt");
+    load("nytimes.txt");
     setTimeout(function(){
       console.log(oldlist[2]);
+      console.log(nytimes[3]);
+      $('.loading').hide(500);
     },5000);
   </script>
 </body>
