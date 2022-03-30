@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>wordle-solver</title>
+  <link rel="stylesheet" href="style.css"></link>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+</head>
+<body>
+  <p class="title">wordle solver</p>
+  <div class="wordlist">
+    <span>choose word list</span>
+  </div>
+  <div class="info">
+    <span>add characters</span>
+  </div>
+  <div class="answer">
+    <span>there is the search results</span>
+  </div>
+  <script type="text/javascript">
+    $(function() {
+        load("old.txt");
+        function load (url){
+          $.get(url, function(data){
+              data = data.replace(/^\d{1,2}(\|*)$/gm,"");
+              data = data.split(/[\r\n]+/);
+              data = data.filter(Boolean);
+          })
+        }
+        console.log(data[0]);
+    });
+  </script>
+</body>
+</html>
