@@ -18,6 +18,7 @@
     <span>search results</span>
   </div>
   <script type="text/javascript">
+    var data = new Array();
     $(function() {
         load("old.txt");
         function load (url){
@@ -25,10 +26,10 @@
               data = data.replace(/^\d{1,2}(\|*)$/gm,"");
               data = data.split(/[\r\n]+/);
               data = data.filter(Boolean);
-              console.log(data[0]);
           })
         }
     });
+    console.log(data[0]);
   </script>
 </body>
 </html>
