@@ -32,12 +32,14 @@
           for(var i=0;i<data.length;i++){
             $(".old").append(data[i]);
           }
-          console.log(data[0]);
+          console.log(data[0] + "<br>");
           console.log("test");
       });
     }
     load("old.txt");
-    console.log(oldlist[0]);
+    setTimeout(function(){
+      console.log(oldlist[2]);
+    },5000);
   </script>
 </body>
 </html>
