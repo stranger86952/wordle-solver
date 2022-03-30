@@ -18,16 +18,17 @@
     <span>search results</span>
   </div>
   <script type="text/javascript">
-    var data = new Array();
-    load("old.txt");
+    var oldlist = new Array();
     function load (url){
       $.get(url, function(data){
           data = data.replace(/^\d{1,2}(\|*)$/gm,"");
           data = data.split(/[\r\n]+/);
           data = data.filter(Boolean);
+          oldlist = data;
       })
     }
-    console.log(data[0]);
+    load("old.txt");
+    console.log(oldlist[0]);
   </script>
 </body>
 </html>
