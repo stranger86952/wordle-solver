@@ -16,6 +16,21 @@
   </div>
   <div class="info">
     <span>add characters</span>
+    <p class="green">
+      <span>correct characters</span>
+      <input class="text_0" size="1" maxlength="1">
+      <input class="text_1" size="1" maxlength="1">
+      <input class="text_2" size="1" maxlength="1">
+      <input class="text_3" size="1" maxlength="1">
+      <input class="text_4" size="1" maxlength="1">
+    </p>
+    <p class="yellow">
+      <span>included characters</span>
+      <input class="text_5">
+    </p>
+  </div>
+  <div class="button" onclick="search()">
+    search
   </div>
   <div class="answer">
     <span>search results</span>
@@ -53,6 +68,10 @@
     setTimeout(function(){
       $('.loading').fadeOut('normal');
     },3000);
+    function search(){
+       var s0 = String(document.getElementsByClassName("text_0"));
+       console.log(s0);
+    }
   </script>
 </body>
 </html>
