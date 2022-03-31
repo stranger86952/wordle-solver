@@ -18,15 +18,15 @@
     <span>add characters</span>
     <p class="green">
       <span>correct characters</span>
-      <input class="text_0" size="1" maxlength="1">
-      <input class="text_1" size="1" maxlength="1">
-      <input class="text_2" size="1" maxlength="1">
-      <input class="text_3" size="1" maxlength="1">
-      <input class="text_4" size="1" maxlength="1">
+      <input id="text_0" size="1" maxlength="1">
+      <input id="text_1" size="1" maxlength="1">
+      <input id="text_2" size="1" maxlength="1">
+      <input id="text_3" size="1" maxlength="1">
+      <input id="text_4" size="1" maxlength="1">
     </p>
     <p class="yellow">
       <span>included characters</span>
-      <input class="text_5">
+      <input id="text_5">
     </p>
   </div>
   <div class="button" onclick="search()">
@@ -69,8 +69,23 @@
       $('.loading').fadeOut('normal');
     },3000);
     function search(){
-       var s0 = String(document.getElementsByClassName("text_0"));
-       console.log(s0);
+      var s0 = document.getElementById("text_0").value;
+      var s1 = document.getElementById("text_1").value;
+      var s2 = document.getElementById("text_2").value;
+      var s3 = document.getElementById("text_3").value;
+      var s4 = document.getElementById("text_4").value;
+      var s5 = document.getElementById("text_5").value;
+      $(".nytimes").text("");
+      for(var i=0;i<nytimeslist.length;i++){
+        var s = nytimeslist[i];
+        var es = 0;
+        if(s0!=""&&s[0]==s0) es++;
+        if(s1!=""&&s[1]==s1) es++;
+        if(s2!=""&&s[2]==s2) es++;
+        if(s3!=""&&s[3]==s3) es++;
+        if(s4!=""&&s[4]==s4) es++;
+        if(es == 5) $(".nytimes").append(data[i] + "<br>");
+      }
     }
   </script>
 </body>
