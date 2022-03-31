@@ -35,36 +35,18 @@
   <div class="answer">
     <span>search results</span>
   </div>
-  <div class="list">
-    <span class="old">error</span>
-    <span class="nytimes">error</span>
-  </div>
+  <span class="lsit"></span>
   <script type="text/javascript">
-    var oldlist = new Array();
-    var nytimeslist = new Array();
+    var list = new Array();
     function load (url){
       $.get(url, function(data){
           data = data.replace(/^\d{1,2}(\|*)$/gm,"");
           data = data.split(/[\r\n]+/);
           data = data.filter(Boolean);
-          if(url == "old.txt"){
-            oldlist = data;
-            $(".old").text("");
-            for(var i=0;i<data.length;i++){
-              $(".old").append(data[i] + "<br>");
-            }
-          }
-          else{
-            nytimeslist = data;
-            $(".nytimes").text("");
-            for(var i=0;i<data.length;i++){
-              $(".nytimes").append(data[i] + "<br>");
-            }
-          }
+          list = data;
       });
     }
-    load("old.txt");
-    load("nytimes.txt");
+    load("wordlist.txt");
     setTimeout(function(){
       $('.loading').fadeOut('normal');
     },3000);
@@ -75,27 +57,16 @@
       var s3 = document.getElementById("text_3").value;
       var s4 = document.getElementById("text_4").value;
       var s5 = document.getElementById("text_5").value;
-      $(".old").text("");
-      $(".nytimes").text("");
-      for(var i=0;i<oldlist.length;i++){
-        var s = oldlist[i];
+      $(".list").text("");
+      for(var i=0;i<list.length;i++){
+        var s = list[i];
         var es = 0;
         if(s0==""||s[0]==s0) es++;
         if(s1==""||s[1]==s1) es++;
         if(s2==""||s[2]==s2) es++;
         if(s3==""||s[3]==s3) es++;
         if(s4==""||s[4]==s4) es++;
-        if(es == 5) $(".old").append(oldlist[i] + "<br>");
-      }
-      for(var i=0;i<nytimeslist.length;i++){
-        var s = nytimeslist[i];
-        var es = 0;
-        if(s0==""||s[0]==s0) es++;
-        if(s1==""||s[1]==s1) es++;
-        if(s2==""||s[2]==s2) es++;
-        if(s3==""||s[3]==s3) es++;
-        if(s4==""||s[4]==s4) es++;
-        if(es == 5) $(".nytimes").append(nytimeslist[i] + "<br>");
+        if(es == 5) $(".list").append(list[i] + "<br>");
       }
     }
   </script>
