@@ -75,25 +75,26 @@
       var s3 = document.getElementById("text_3").value;
       var s4 = document.getElementById("text_4").value;
       var s5 = document.getElementById("text_5").value;
+      $(".old").text("");
       $(".nytimes").text("");
       for(var i=0;i<oldlist.length;i++){
         var s = oldlist[i];
         var es = 0;
-        if(s0!=""&&s[0]==s0) es++;
-        if(s1!=""&&s[1]==s1) es++;
-        if(s2!=""&&s[2]==s2) es++;
-        if(s3!=""&&s[3]==s3) es++;
-        if(s4!=""&&s[4]==s4) es++;
+        if(s0!=""||s[0]==s0) es++;
+        if(s1!=""||s[1]==s1) es++;
+        if(s2!=""||s[2]==s2) es++;
+        if(s3!=""||s[3]==s3) es++;
+        if(s4!=""||s[4]==s4) es++;
         if(es == 5) $(".old").append(oldlist[i] + "<br>");
       }
       for(var i=0;i<nytimeslist.length;i++){
         var s = nytimeslist[i];
         var es = 0;
-        if(s0!=""&&s[0]==s0) es++;
-        if(s1!=""&&s[1]==s1) es++;
-        if(s2!=""&&s[2]==s2) es++;
-        if(s3!=""&&s[3]==s3) es++;
-        if(s4!=""&&s[4]==s4) es++;
+        if(s0!=""||s[0]==s0) es++;
+        if(s1!=""||s[1]==s1) es++;
+        if(s2!=""||s[2]==s2) es++;
+        if(s3!=""||s[3]==s3) es++;
+        if(s4!=""||s[4]==s4) es++;
         if(es == 5) $(".nytimes").append(nytimeslist[i] + "<br>");
       }
     }
