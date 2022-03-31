@@ -37,13 +37,13 @@
   </div>
   <span class="lsit"></span>
   <script type="text/javascript">
-    var list = new Array();
+    var wlist = new Array();
     function load (url){
       $.get(url, function(data){
           data = data.replace(/^\d{1,2}(\|*)$/gm,"");
           data = data.split(/[\r\n]+/);
           data = data.filter(Boolean);
-          list = data;
+          wlist = data;
       });
     }
     load("wordlist.txt");
@@ -58,16 +58,17 @@
       var s4 = document.getElementById("text_4").value;
       var s5 = document.getElementById("text_5").value;
       $(".list").text("");
-      for(var i=0;i<list.length;i++){
-        var s = list[i];
+      for(var i=0;i<wlist.length;i++){
+        var s = wlist[i];
         var es = 0;
         if(s0==""||s[0]==s0) es++;
         if(s1==""||s[1]==s1) es++;
         if(s2==""||s[2]==s2) es++;
         if(s3==""||s[3]==s3) es++;
         if(s4==""||s[4]==s4) es++;
-        if(es == 5) $(".list").append(list[i] + "<br>");
+        if(es == 5) $(".list").append(wlist[i] + "<br>");
       }
+      console.log("pushed!");
     }
   </script>
 </body>
