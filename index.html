@@ -80,13 +80,15 @@
         if(s3==""||s[3]==s3) es++;
         if(s4==""||s[4]==s4) es++;
         for(var j=0;j<s5.length;j++){
-          if(s[1]==s5[j]) es++;
+          if(s[0]==s9[j]) es--;
+          else if(s[1]==s5[j]) es++;
           else if(s[2]==s5[j]) es++;
           else if(s[3]==s5[j]) es++;
           else if(s[4]==s5[j]) es++;
         }
         for(var j=0;j<s6.length;j++){
           if(s[0]==s6[j]) es++;
+          else if(s[1]==s9[j]) es--;
           else if(s[2]==s6[j]) es++;
           else if(s[3]==s6[j]) es++;
           else if(s[4]==s6[j]) es++;
@@ -94,6 +96,7 @@
         for(var j=0;j<s7.length;j++){
           if(s[0]==s7[j]) es++;
           else if(s[1]==s7[j]) es++;
+          else if(s[2]==s9[j]) es--;
           else if(s[3]==s7[j]) es++;
           else if(s[4]==s7[j]) es++;
         }
@@ -101,6 +104,7 @@
           if(s[0]==s8[j]) es++;
           else if(s[1]==s8[j]) es++;
           else if(s[2]==s8[j]) es++;
+          else if(s[3]==s9[j]) es--;
           else if(s[4]==s8[j]) es++;
         }
         for(var j=0;j<s9.length;j++){
@@ -108,6 +112,7 @@
           else if(s[1]==s9[j]) es++;
           else if(s[2]==s9[j]) es++;
           else if(s[3]==s9[j]) es++;
+          else if(s[4]==s9[j]) es--;
         }
         for(var j=0;j<s10.length;j++){
           if(s[0]==s10[j]) es--;
