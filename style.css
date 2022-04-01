@@ -26,3 +26,6 @@
 .yellow>input{
   outline:solid 2px yellow;
 }
+.gray>input{
+  outline:solid 2px gray;
+}
