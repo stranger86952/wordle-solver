@@ -76,7 +76,7 @@
       var s10 = document.getElementById("text_10").value;
       $(".list").text("");
       var element = document.getElementById('load');
-      if(element.checked) var awlist = wlist;
+      if(element.checked == false) var awlist = wlist;
       else var awlist = alist;
       for(var i=0;i<awlist.length;i++){
         var s = awlist[i];
