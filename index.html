@@ -11,6 +11,7 @@
     Now, loadung...
   </div>
   <p class="title">wordle solver</p>
+  <label><input type="checkbox" id="load">search only answer words</label>
   <div class="wordlist">
     <span>choose word list</span>
   </div>
@@ -46,15 +47,18 @@
   <span class="list"></span>
   <script type="text/javascript">
     var wlist = new Array();
-    function load (url){
+    var alist = new Array();
+    function load (url,s){
       $.get(url, function(data){
           data = data.replace(/^\d{1,2}(\|*)$/gm,"");
           data = data.split(/[\r\n]+/);
           data = data.filter(Boolean);
-          wlist = data;
+          if(s=="w") wlist = data;
+          else alist = data;
       });
     }
-    load("wordlist.txt");
+    load("wordlist.txt","w");
+    load("answer.txt","a");
     setTimeout(function(){
       $('.loading').fadeOut('normal');
     },1000);
@@ -71,8 +75,11 @@
       var s9 = document.getElementById("text_9").value;
       var s10 = document.getElementById("text_10").value;
       $(".list").text("");
-      for(var i=0;i<wlist.length;i++){
-        var s = wlist[i];
+      var element = document.getElementById('load');
+      if(element.checked) var awlist = wlist;
+      else var awlist = alist;
+      for(var i=0;i<awlist.length;i++){
+        var s = awlist[i];
         var es = 0;
         if(s0==""||s[0]==s0) es++;
         if(s1==""||s[1]==s1) es++;
