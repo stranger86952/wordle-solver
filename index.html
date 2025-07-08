@@ -3,8 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Wordle solver</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+  <title>Wordle solver</n>  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
   <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
   <style>
     body {
@@ -106,28 +105,19 @@
       <label><input type="radio" name="list"> All words</label>
       <br />
       <span>Theme: </span>
-      <!-- Theme options can be added later -->
     </div>
   </div>
   <div class="row" style="margin-top: 20px;">
     <div class="solver col-md-6">
       <p style="font-weight: bold;">Solver</p>
-      <p id="green">
-        <span>Correct characters: </span>
-      </p>
-      <p id="yellow">
-        <span>Included characters: </span>
-      </p>
-      <p id="gray">
-        <span>Not included characters: </span>
-        <input id="text_10" size="25" maxlength="21" />
-      </p>
+      <p id="green"><span>Correct characters: </span></p>
+      <p id="yellow"><span>Included characters: </span></p>
+      <p id="gray"><span>Not included characters: </span><input id="text_10" size="25" maxlength="21" /></p>
     </div>
     <div class="results col-md-6">
       <p style="font-weight: bold;">Results</p>
       <span class="button" onclick="search()">🔍 Search</span>
       <div class="answer"></div>
-      <span class="list"></span>
     </div>
   </div>
 
@@ -160,7 +150,10 @@
       for (var i = 0; i < 11; i++) {
         inputs.push(document.getElementById("text_" + i).value.toUpperCase());
       }
-      $(".list").text("");
+      // Clear previous results
+      var answerEl = $(".answer");
+      answerEl.empty();
+
       var element = document.getElementById("load");
       var awlist = element.checked == false ? wlist : alist;
 
@@ -198,16 +191,13 @@
           ) es--;
         }
 
-        if (
-          es ==
-          5 +
-            inputs[5].length +
-            inputs[6].length +
-            inputs[7].length +
-            inputs[8].length +
-            inputs[9].length
-        )
-          $(".list").append(s + "<br>");
+        // count required matches
+        var totalNeeded = 5;
+        for (var idx = 5; idx < 10; idx++) totalNeeded += inputs[idx].length;
+
+        if (es == totalNeeded) {
+          answerEl.append(s + "<br>");
+        }
       }
     }
   </script>
