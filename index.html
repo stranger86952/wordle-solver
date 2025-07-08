@@ -1,33 +1,48 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Wordle solver</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
   <style>
     body {
-      padding: 10px;
+      padding: 20px;
+      background: #f9f9f9;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     }
     input {
       text-transform: uppercase;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      padding: 3px 6px;
+      margin-right: 4px;
+      width: 30px;
+      transition: border-color 0.3s;
     }
     input:focus {
       outline: none;
+      border-color: #007bff;
+      box-shadow: 0 0 3px #007bff;
     }
     p {
       margin-bottom: 5px;
     }
     .button {
-      padding : 2px;
-      width: auto;
+      padding: 5px 10px;
       cursor: pointer;
-      border: 2px solid;
-      border-radius: 3px;
+      border: 2px solid #007bff;
+      border-radius: 4px;
+      background-color: #007bff;
+      color: white;
+      user-select: none;
+      display: inline-block;
+      margin-bottom: 10px;
+      transition: background-color 0.3s, opacity 0.3s;
     }
     .button:hover {
-      opacity: 0.5;
+      opacity: 0.8;
     }
     #github-link {
       position: fixed;
@@ -35,18 +50,40 @@
       right: 20px;
       background-color: #333;
       color: #fff;
-      padding: 10px;
-      border-radius: 5px;
+      padding: 10px 15px;
+      border-radius: 6px;
       text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
     }
-    #green>input {
-      border: solid 2px green;
+    #green > input {
+      border-color: green;
     }
-    #yellow>input {
-      border: solid 2px yellow;
+    #yellow > input {
+      border-color: goldenrod;
     }
-    #gray>input {
-      border: solid 2px gray;
+    #gray > input {
+      border-color: gray;
+      width: 200px;
+      text-transform: uppercase;
+    }
+    .title {
+      margin-bottom: 20px;
+      font-weight: 700;
+      color: #333;
+    }
+    .explanation a {
+      color: #007bff;
+      text-decoration: underline;
+    }
+    .answer {
+      max-height: 300px;
+      overflow-y: auto;
+      border: 1px solid #ddd;
+      padding: 8px;
+      background: #fff;
+      font-family: monospace;
+      white-space: pre-wrap;
     }
   </style>
 </head>
@@ -55,7 +92,7 @@
   <div class="row">
     <div class="explanation col-md-6">
       <p style="font-weight: bold;">How to use</p>
-      <p>You can narrow down your next word when playing <a href="https://www.nytimes.com/games/wordle/index.html" target="_blank" rel="noopener noreferrer" style="color: blue;">Wordle</a>.</p>
+      <p>You can narrow down your next word when playing <a href="https://www.nytimes.com/games/wordle/index.html" target="_blank" rel="noopener noreferrer">Wordle</a>.</p>
       <ol>
         <li>Set word list to display.</li>
         <li>Enter characters according to your results.</li>
@@ -64,80 +101,113 @@
     </div>
     <div class="setting col-md-6">
       <p style="font-weight: bold;">Settings</p>
-      <span>Word list : </span>
-      <label><input type="radio" id="load" name="list" checked>answer words</label>
-      <label><input type="radio" name="list">all words</label>
-      <br>
-      <span>Theme : </span>
+      <span>Word list: </span>
+      <label><input type="radio" id="load" name="list" checked> Answer words</label>
+      <label><input type="radio" name="list"> All words</label>
+      <br />
+      <span>Theme: </span>
+      <!-- Theme options can be added later -->
     </div>
   </div>
-  <div class="row">
+  <div class="row" style="margin-top: 20px;">
     <div class="solver col-md-6">
       <p style="font-weight: bold;">Solver</p>
       <p id="green">
-        <span>correct characters : </span>
+        <span>Correct characters: </span>
       </p>
       <p id="yellow">
-        <span>included characters : </span>
+        <span>Included characters: </span>
       </p>
       <p id="gray">
-        <span>not included characters : </span>
-        <input id="text_10" size="25" maxlength="21">
+        <span>Not included characters: </span>
+        <input id="text_10" size="25" maxlength="21" />
       </p>
     </div>
     <div class="results col-md-6">
       <p style="font-weight: bold;">Results</p>
-      <span class="button" onclick="search()">🔍search</span>
-      <div class="answer">
-      </div>
+      <span class="button" onclick="search()">🔍 Search</span>
+      <div class="answer"></div>
       <span class="list"></span>
     </div>
   </div>
+
   <a href="https://github.com/stranger86952" id="github-link" target="_blank" rel="noopener noreferrer">My GitHub</a>
-  <script type="text/javascript">
-    var wlist = new Array();
-    var alist = new Array();
-    function load (url,s){
-      $.get(url, function(data){
-          data = data.replace(/^\d{1,2}(\|*)$/gm,"");
-          data = data.split(/[\r\n]+/);
-          data = data.filter(Boolean);
-          if(s=="w") wlist = data;
-          else alist = data;
+
+  <script>
+    var wlist = [];
+    var alist = [];
+
+    function load(url, s) {
+      $.get(url, function (data) {
+        data = data.replace(/^\d{1,2}(\|*)$/gm, "");
+        data = data.split(/[\r\n]+/);
+        data = data.filter(Boolean);
+        if (s == "w") wlist = data;
+        else alist = data;
       });
     }
-    load("wordlist.txt","w");
-    load("answer.txt","a");
-    for(var i=0;i<5;i++){
-      $("#green").append('<input id="text_'+i.toString()+'" size="1" maxlength="1"> ');
-      $("#yellow").append('<input id="text_'+(i+5).toString()+'" size="5" maxlength="4"> ');
+
+    load("wordlist.txt", "w");
+    load("answer.txt", "a");
+
+    for (var i = 0; i < 5; i++) {
+      $("#green").append('<input id="text_' + i + '" size="1" maxlength="1" /> ');
+      $("#yellow").append('<input id="text_' + (i + 5) + '" size="5" maxlength="4" /> ');
     }
-    function search(){
-      inputs = new Array();
-      for(var i=0;i<11;i++){
-        inputs.push(document.getElementById("text_"+i.toString()).value.toUpperCase());
+
+    function search() {
+      var inputs = [];
+      for (var i = 0; i < 11; i++) {
+        inputs.push(document.getElementById("text_" + i).value.toUpperCase());
       }
       $(".list").text("");
-      var element = document.getElementById('load');
-      if(element.checked == false) var awlist = wlist;
-      else var awlist = alist;
-      for(var i=0;i<awlist.length;i++){
-        var s = awlist[i]; //sってなんだよ適当な変数名つけんな.
-        var es = 0; //.
-        for(var j=0;j<5;j++){
-          //green es+=5
-          if(inputs[j]==""||s[j]==inputs[j]) es++;
-          //yellow es+=inputs[5].length+...+inputs[9].length
-          for(var k=0;k<inputs[j+5].length;k++){
-            if((s[0]==inputs[j+5][k] && j!=0)||(s[1]==inputs[j+5][k] && j!=1)||(s[2]==inputs[j+5][k] && j!=2)||(s[3]==inputs[j+5][k] && j!=3)||(s[4]==inputs[j+5][k] && j!=4)) es++;
-            if(s[j]==inputs[j+5][k]) es--;
+      var element = document.getElementById("load");
+      var awlist = element.checked == false ? wlist : alist;
+
+      for (var i = 0; i < awlist.length; i++) {
+        var s = awlist[i];
+        var es = 0;
+
+        for (var j = 0; j < 5; j++) {
+          // green: correct character or empty input
+          if (inputs[j] == "" || s[j] == inputs[j]) es++;
+
+          // yellow: included characters but not in that position
+          for (var k = 0; k < inputs[j + 5].length; k++) {
+            var ch = inputs[j + 5][k];
+            if (
+              (s[0] == ch && j != 0) ||
+              (s[1] == ch && j != 1) ||
+              (s[2] == ch && j != 2) ||
+              (s[3] == ch && j != 3) ||
+              (s[4] == ch && j != 4)
+            ) es++;
+            if (s[j] == ch) es--;
           }
         }
-        //grey es+=0
-        for(var j=0;j<inputs[10].length;j++){
-          if(s[0]==inputs[10][j]||s[1]==inputs[10][j]||s[2]==inputs[10][j]||s[3]==inputs[10][j]||s[4]==inputs[10][j]) es--;
+
+        // gray: excluded characters should not appear
+        for (var j = 0; j < inputs[10].length; j++) {
+          var ch = inputs[10][j];
+          if (
+            s[0] == ch ||
+            s[1] == ch ||
+            s[2] == ch ||
+            s[3] == ch ||
+            s[4] == ch
+          ) es--;
         }
-        if(es==5+inputs[5].length+inputs[6].length+inputs[7].length+inputs[8].length+inputs[9].length) $(".list").append(s + "<br>");
+
+        if (
+          es ==
+          5 +
+            inputs[5].length +
+            inputs[6].length +
+            inputs[7].length +
+            inputs[8].length +
+            inputs[9].length
+        )
+          $(".list").append(s + "<br>");
       }
     }
   </script>
